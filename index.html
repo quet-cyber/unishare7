@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="UniShare - a campus peer-to-peer exchange for lecture notes, past papers, textbooks and lab gear.">
+  <meta name="theme-color" content="#070a12">
+  <title>UniShare | Campus Academic Resource Exchange</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%9A%3C/text%3E%3C/svg%3E">
+
+  <!-- Optional web fonts. If you are offline, the system font is used automatically. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============ Header ============ -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <button type="button" class="brand" id="brandHomeLink" title="Back to Explore Vault">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong>UniShare <span class="brand-version">v3.0</span></strong>
+          <span class="subtitle">Campus Peer Resource &amp; Gear Exchange</span>
+        </span>
+      </button>
+
+      <nav class="nav-tabs" aria-label="Primary navigation">
+        <button type="button" class="nav-tab active" data-tab="all">Explore Vault</button>
+        <button type="button" class="nav-tab" data-tab="swap">Book &amp; Gear Swap</button>
+        <button type="button" class="nav-tab" data-tab="requests">
+          Request Board <span class="tab-count" id="openRequestsCount">0</span>
+        </button>
+        <button type="button" class="nav-tab" data-tab="saved">
+          Study Vault <span class="tab-count" id="savedItemsCount">0</span>
+        </button>
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="btn-secondary" id="themeToggleBtn" aria-pressed="false" title="Switch light / dark theme">
+          <span id="themeToggleIcon" aria-hidden="true">&#9728;&#65039;</span>
+          <span class="sr-only">Toggle theme</span>
+        </button>
+        <button type="button" class="btn-secondary" id="resetDataBtn" title="Restore default sample data">Reset Demo</button>
+        <button type="button" class="btn-primary" id="openUploadModalBtn">+ Share Resource</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ Hero + stats + filters ============ -->
+  <section class="hero-banner">
+    <div class="container">
+      <div class="hero-header">
+        <div class="hero-title">
+          <div class="campus-pill">
+            <span class="pulse-dot"></span>
+            <span>PEER-TO-PEER ACADEMIC NETWORK</span>
+          </div>
+          <h2 id="sectionHeading">Academic Notes, Past Papers &amp; Lab Gear Exchange</h2>
+          <p id="sectionSubheading">Access handwritten lecture notes, solved question banks, or swap textbooks and lab kits directly with peers on campus.</p>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-info"><span>Notes &amp; PYQ Bundles</span><strong id="statDigitalCount">0</strong></div>
+          <div class="stat-icon stat-indigo" aria-hidden="true">&#128196;</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info"><span>Books &amp; Gear for Swap</span><strong id="statSwapCount">0</strong></div>
+          <div class="stat-icon stat-amber" aria-hidden="true">&#128218;</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info"><span>Fulfilled Peer Needs</span><strong id="statFulfilledCount">0</strong></div>
+          <div class="stat-icon stat-emerald" aria-hidden="true">&#10003;</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info"><span>Community Upvotes</span><strong id="statUpvotesCount">0</strong></div>
+          <div class="stat-icon stat-cyan" aria-hidden="true">&#9733;</div>
+        </div>
+      </div>
+
+      <div class="filter-bar" id="resourceFilterBar">
+        <div class="filter-top-row">
+          <div class="search-box">
+            <span class="search-icon" aria-hidden="true">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </span>
+            <label for="searchInput" class="sr-only">Search resources</label>
+            <input type="search" id="searchInput" class="search-input" placeholder="Search subject, course code, contributor..." autocomplete="off">
+            <span class="shortcut-hint" id="searchShortcutHint" aria-hidden="true">/</span>
+            <button type="button" class="clear-search-btn" id="clearSearchBtn" title="Clear search" hidden>ESC</button>
+          </div>
+
+          <select id="departmentFilter" class="filter-select" aria-label="Filter by department"></select>
+          <select id="semesterFilter" class="filter-select" aria-label="Filter by semester"></select>
+          <select id="sortFilter" class="filter-select" aria-label="Sort resources">
+            <option value="popular">Sort: Most Upvoted</option>
+            <option value="newest">Sort: Newest Added</option>
+            <option value="course">Sort: Course Code (A-Z)</option>
+          </select>
+        </div>
+
+        <div class="filter-bottom-row">
+          <div class="category-pills" id="categoryPillsContainer"></div>
+          <div class="results-meta">
+            <span id="resultsCountText" aria-live="polite">Showing 0 resources</span>
+            <button type="button" class="link-btn" id="resetFiltersBtn" hidden>Reset filters</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Main ============ -->
+  <main class="main-section" id="main">
+    <div class="container">
+
+      <div id="resourcesViewContainer">
+        <div class="resource-grid" id="resourcesGrid"></div>
+      </div>
+
+      <div id="requestBoardViewContainer" hidden>
+        <div class="request-board-layout">
+          <div>
+            <div class="request-list-header">
+              <div>
+                <h3>Active Student Resource Requests</h3>
+                <p>Help a peer by sharing missing notes, past papers, or lending lab instruments.</p>
+              </div>
+              <select id="requestStatusFilter" class="filter-select" style="width:auto" aria-label="Filter requests">
+                <option value="all">All Requests</option>
+                <option value="open">Open Needs Only</option>
+                <option value="fulfilled">Fulfilled Only</option>
+              </select>
+            </div>
+            <div class="request-list" id="requestsListContainer"></div>
+          </div>
+
+          <aside class="request-form-card">
+            <h3>Post an Academic Request</h3>
+            <p>Missing notes, or need a calculator / drafter for tomorrow's exam? Ask the campus network.</p>
+            <form id="newRequestForm">
+              <div class="form-group">
+                <label class="form-label" for="reqTitle">What resource do you need? *</label>
+                <input type="text" id="reqTitle" class="form-control" maxlength="120" placeholder="e.g. Compiler Design 2025 Mid-Sem Paper" required>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="reqCourse">Course Code *</label>
+                  <input type="text" id="reqCourse" class="form-control" maxlength="10" pattern="[A-Za-z]{2,4}-?[0-9]{3}" title="Format like CS-402" placeholder="e.g. CS-402" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="reqUrgency">Urgency</label>
+                  <select id="reqUrgency" class="form-control"></select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="reqDepartment">Department</label>
+                <select id="reqDepartment" class="form-control"></select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="reqDetails">Specific Topics or Details *</label>
+                <textarea id="reqDetails" class="form-control" rows="3" maxlength="300" placeholder="Professor name, book edition, dates you need it..." required></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="reqStudentName">Your Name &amp; Hostel / Contact *</label>
+                <input type="text" id="reqStudentName" class="form-control" maxlength="80" placeholder="e.g. Rohan Verma (Hostel B-204)" required>
+              </div>
+              <button type="submit" class="btn-primary btn-block">Post Request to Board</button>
+            </form>
+          </aside>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ============ Modal: share resource ============ -->
+  <div class="modal-overlay" id="uploadModal" aria-hidden="true">
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="uploadModalTitle" tabindex="-1">
+      <div class="modal-header">
+        <h3 id="uploadModalTitle">Share Academic Resource</h3>
+        <button type="button" class="modal-close-btn" data-close-modal aria-label="Close">&times;</button>
+      </div>
+      <form id="uploadResourceForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="resTitle">Resource Title *</label>
+            <input type="text" id="resTitle" class="form-control" maxlength="120" placeholder="e.g. Discrete Mathematics Handwritten Notes" required data-autofocus>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="resCourseCode">Course Code *</label>
+              <input type="text" id="resCourseCode" class="form-control" maxlength="10" pattern="[A-Za-z]{2,4}-?[0-9]{3}" title="Format like CS-205" placeholder="e.g. CS-205" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="resCategory">Category *</label>
+              <select id="resCategory" class="form-control" required></select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="resDepartment">Department *</label>
+              <select id="resDepartment" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="resSemester">Semester *</label>
+              <select id="resSemester" class="form-control" required></select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="resExchangeMode">Exchange Mode *</label>
+              <select id="resExchangeMode" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="resFormatInfo">File Size or Item Condition *</label>
+              <input type="text" id="resFormatInfo" class="form-control" maxlength="60" placeholder="e.g. 14 MB PDF or Like New" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="resDescription">Topics Covered / Description *</label>
+            <textarea id="resDescription" class="form-control" rows="3" maxlength="400" placeholder="Units covered, solved examples, pickup instructions..." required></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="resContributor">Your Name *</label>
+              <input type="text" id="resContributor" class="form-control" maxlength="60" placeholder="e.g. Ananya Nair" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="resContact">Pickup / Contact Info *</label>
+              <input type="text" id="resContact" class="form-control" maxlength="80" placeholder="e.g. Central Library" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" data-close-modal>Cancel</button>
+          <button type="submit" class="btn-primary">Publish Resource</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <div class="modal-overlay" id="previewModal" aria-hidden="true">
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="previewModalTitle" tabindex="-1">
+      <div class="modal-header">
+        <h3 id="previewModalTitle">Resource Overview</h3>
+        <button type="button" class="modal-close-btn" data-close-modal aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body" id="previewModalBody"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" data-close-modal>Close</button>
+        <button type="button" class="btn-primary" id="confirmResourceActionBtn">Download</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div><strong>UniShare Academic Exchange</strong> &bull; Press <code>/</code> to search anytime.</div>
+      <div>Everything is saved in your browser only (no server, no account).</div>
+    </div>
+  </footer>
+
+  <!-- Scripts: order matters (each file uses the one before it) -->
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/resources.js"></script>
+  <script src="js/requests.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
